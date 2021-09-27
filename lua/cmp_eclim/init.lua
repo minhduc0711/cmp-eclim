@@ -21,13 +21,7 @@ function source:get_debug_name()
 end
 
 function source:get_trigger_characters(_)
-  -- TODO: no clue how this works atm..
-  -- I thought completion would only trigger after a dot if I do this?
   return { '.' }
-end
-
-function source:get_keyword_pattern(_)
-  return [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w\{2,}\%(-\w*\)*\)]]
 end
 
 function source:complete(params, callback)
