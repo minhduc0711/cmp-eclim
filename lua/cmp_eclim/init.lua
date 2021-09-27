@@ -1,4 +1,5 @@
 local cmp = require("cmp")
+-- Unfortunately the Eclim completion result doesn't support many item kinds
 local kinds_mapping = {
   v = cmp.lsp.CompletionItemKind.Variable,
   f = cmp.lsp.CompletionItemKind.Method,
@@ -12,11 +13,11 @@ source.new = function()
 end
 
 function source:is_available()
-  return vim.fn['eclim#PingEclim'](0) == 0 and false or true
+  return vim.fn['eclim#PingEclim'](0) ~= 0
 end
 
 function source:get_debug_name()
-  return 'cmp-eclim'
+  return 'eclim'
 end
 
 function source:get_trigger_characters(_)
@@ -35,7 +36,7 @@ function source:complete(params, callback)
   local row, col = unpack(vim.api.nvim_win_get_cursor(0))
   vim.api.nvim_win_set_cursor(0, {row, col - string.len(input)})
   local results = vim.fn['eclim#java#complete#CodeComplete'](0, input)
-  -- Reset original cursor location
+  -- Restore original cursor location
   vim.api.nvim_win_set_cursor(0, {row, col})
 
   local items = {}
