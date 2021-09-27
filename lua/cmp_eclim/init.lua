@@ -26,6 +26,10 @@ function source:get_trigger_characters(_)
   return { '.' }
 end
 
+function source:get_keyword_pattern(_)
+  return [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w\{2,}\%(-\w*\)*\)]]
+end
+
 function source:complete(params, callback)
   local offset = vim.fn['eclim#java#complete#CodeComplete'](1, '') + 1
   local input = string.sub(params.context.cursor_before_line, offset)
